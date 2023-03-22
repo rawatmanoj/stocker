@@ -6,9 +6,11 @@ import { Ubuntu } from "@next/font/google";
 import { searchMatch } from "./types";
 import { Icons } from "../icons";
 import useDebounce from "@/hooks/useDebounce";
+import { useRouter } from "next/navigation";
 const ubuntu = Ubuntu({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
   const [searchForm, setSearchForm] = useState("");
   const debouncedSearchValue = useDebounce(searchForm, 500);
   const { data } = useSearchCompanyQuery(debouncedSearchValue);
@@ -16,6 +18,11 @@ export default function Home() {
     let value = (event.target as HTMLInputElement).value;
     setSearchForm(value);
   };
+
+  const handleCompanyClick = (symbol: string) => {
+    router.push(`/company/${symbol}`);
+  };
+
   return (
     <section className="flex flex-col justify-center items-center w-full ">
       <div className="flex flex-row justify-center items-center w-1/3 relative">
@@ -36,6 +43,7 @@ export default function Home() {
                 <div
                   key={match["1. symbol"]}
                   className={`${ubuntu.className} hover:bg-specialGreen font-medium pl-1 pr-1 cursor-pointer`}
+                  onClick={() => handleCompanyClick(match["1. symbol"])}
                 >
                   {match["2. name"]}
                 </div>

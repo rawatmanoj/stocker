@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const { colors } = require("tailwindcss/colors");
+const { defaultConfig } = require("tailwindcss/defaultConfig");
 
 module.exports = {
   important: true,
@@ -14,10 +15,12 @@ module.exports = {
       colors: {
         ...colors,
         baseColor: "#0A192F",
+        lightBaseColor: "#112D3C",
         darkteal: {},
         specialGreen: "#64ffda",
         lighNavy: "#112240",
         lightSlate: "#ccd6f6",
+        lightestBorder: "#233554",
         neutral: {
 
         },
@@ -27,6 +30,9 @@ module.exports = {
           background: "#FFF0D9",
           icon: "#E64A19",
         },
+      },
+      height: {
+        'headerSearch': '75%',
       },
     },
     backgroundImage: {

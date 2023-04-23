@@ -14,6 +14,9 @@ import {
 import { Line, Chart, Bar } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 import Button from "@/ui/Button";
+import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxTyped";
+import { saveChartData } from "@/lib/redux/store/reducers/companyReducer";
 
 type ChartProps = {
   monthlyData: {
@@ -34,7 +37,7 @@ ChartJS.register(
 );
 
 export const options = {
-  // bezierCurve: true,
+  bezierCurve: true,
   responsive: true,
   plugins: {
     legend: {
@@ -65,32 +68,42 @@ export const options = {
 };
 
 export default function ChartComp({ monthlyData }: ChartProps) {
-  //const transformedData = Object.values(monthlyData["Monthly Time Series"][label]["4. close"]);
+  const dispatch = useAppDispatch();
+  // const storedChartData = useAppSelector(
+  //   (state) => state?.companyReducer?.chartData
+  // );
+  const storedChartData = monthlyData;
+  console.log(monthlyData, "calledddddddddddd");
+  if (monthlyData["Weekly Time Series"]) {
+    dispatch(saveChartData(monthlyData));
+  }
+
   const [interval, setInterval] = useState("1yr");
   const ref = useRef(0);
   const handleClick = (interval: string) => {
     setInterval(interval);
   };
-  console.log(interval, "interval");
-  const labels = monthlyData["Weekly Time Series"]
-    ? Object.keys(monthlyData["Weekly Time Series"])
-    : []
-        .filter((val, index) => {
-          let lessThan;
-          if (interval === "3yr") {
-            lessThan = 144;
-          } else if (interval === "5yr") {
-            lessThan = 240;
-          } else {
-            lessThan = 48;
-          }
-
-          console.log(++ref.current, "ref");
-          if (index < lessThan) {
-            return val;
-          }
-        })
-        .reverse();
+  const labels =
+    storedChartData && storedChartData["Weekly Time Series"]
+      ? Object.keys(storedChartData["Weekly Time Series"])
+          .filter((val, index) => {
+            let lessThan;
+            if (interval === "3yr") {
+              lessThan = 144;
+            } else if (interval === "5yr") {
+              lessThan = 240;
+            } else if (interval === "1yr") {
+              lessThan = 48;
+            } else {
+              lessThan = Math.min();
+            }
+            console.log(lessThan, "lessThanlessThan");
+            if (index < lessThan) {
+              return val;
+            }
+          })
+          .reverse()
+      : [];
 
   const data = {
     labels,
@@ -99,7 +112,7 @@ export default function ChartComp({ monthlyData }: ChartProps) {
         type: "line" as const,
         yAxisID: "A",
         data: labels.map((label) => {
-          let transformedData = (monthlyData["Weekly Time Series"] as any)[
+          let transformedData = (storedChartData["Weekly Time Series"] as any)[
             label
           ]["4. close"];
           return transformedData;
@@ -111,7 +124,7 @@ export default function ChartComp({ monthlyData }: ChartProps) {
         type: "bar" as const,
         yAxisID: "B",
         data: labels.map((label) => {
-          let transformedData = (monthlyData["Weekly Time Series"] as any)[
+          let transformedData = (storedChartData["Weekly Time Series"] as any)[
             label
           ]["5. volume"];
           return transformedData;
@@ -122,7 +135,7 @@ export default function ChartComp({ monthlyData }: ChartProps) {
     ],
   };
   return (
-    <div className="bg-lightBaseColor mt-5 rounded-xl">
+    <div className="bg-lightBaseColor mt-5 rounded-xl" id="chart">
       <div className="w-full text-right ">
         <Button handleClick={() => handleClick("1yr")}>1yr</Button>
         <Button handleClick={() => handleClick("3yr")}>3yr</Button>

@@ -10,7 +10,11 @@ import {
 import {
   RxChevronLeft,
     RxCross2,
+    
   } from "react-icons/rx"
+import {
+  BsBuildingAdd
+  } from "react-icons/bs"
 
 
   export const Icons = {
@@ -18,6 +22,7 @@ import {
     cross:RxCross2,
     chevronLeft:RxChevronLeft,
     stockFill:RiStockFill,
-    google:FcGoogle
+    google:FcGoogle,
+    buildingAdd:BsBuildingAdd
   }
   

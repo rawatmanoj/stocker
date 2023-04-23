@@ -1,9 +1,10 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import GithubProvider from "next-auth/providers/github"
 
 export const authOptions : NextAuthOptions = {
   // Configure one or more authentication providers
-  secret: process.env.NEXTAUTH_URL,
+  secret: "mynewscrete",
   providers: [
     GoogleProvider({
       clientId: '200568372628-slql8tu04o47bs7uaovlitp5v0ognss6.apps.googleusercontent.com',
@@ -11,28 +12,6 @@ export const authOptions : NextAuthOptions = {
     }),
     // ...add more providers here
   ],
-  pages: {
-    signIn: "/login",
-  },
-callbacks: {
-  async session({ token, session }) {
-    // if (token) {
-    //   session.user.id = token.id
-    //   session.user.name = token.name
-    //   session.user.email = token.email
-    //   session.user.image = token.picture
-    // }
-
-    return session
-  },
-  // async jwt(data) {
-  //   console.log(data)
-  //   return {
-  //     name:"manoj"
-  //   }
-  // },
-},
-
 }
 
 export default NextAuth(authOptions)

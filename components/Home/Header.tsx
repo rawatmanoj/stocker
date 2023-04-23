@@ -1,12 +1,11 @@
 "use client";
 import Search from "@/ui/Search";
-import ProvidersWrapper from "@/app/ProvidersWrapper";
 import { useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { useSearchCompanyQuery } from "@/lib/redux/slices/homeSlice";
 import { searchMatch } from "./types";
 import { Ubuntu } from "@next/font/google";
-// import { Roboto_Mono } from "@next/font/google";
+// import { Roboto_Mono } from "@@next/font/google";
 // const ubuntu = Roboto_Mono({ weight: "400", subsets: ["latin"] });
 
 const ubuntu = Ubuntu({ weight: "400", subsets: ["latin"] });
@@ -21,7 +20,7 @@ export default function RootLayout() {
 
   return (
     <header
-      className={`shadow-xl bg-baseColor sticky text-black w-full h-12 flex `}
+      className={`shadow-xl bg-baseColor sticky text-black w-full h-12 flex z-50 top-0`}
     >
       <div className="w-1/2 text-white">About</div>
       <div className="w-1/2  flex items-center justify-center  h-full">
@@ -30,7 +29,7 @@ export default function RootLayout() {
             placeholder="Search"
             value={searchForm}
             onChange={onChange}
-            className="w-2/7 rounded-lg text-lg h-headerSearch"
+            className="w-2/7 rounded-md text-lg h-headerSearch"
           />
           {data?.bestMatches && data.bestMatches.length > 0 ? (
             <div className="min-h-[50%] bg-white rounded-lg min-h-[40px] flex flex-col justify-center absolute left-0 top-14">

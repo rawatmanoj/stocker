@@ -3,24 +3,32 @@ import ProvidersWrapper from "./ProvidersWrapper";
 import Header from "@/components/Home/Header";
 // import { Roboto_Mono } from "@next/font/google";
 // const ubuntu = Roboto_Mono({ weight: "400", subsets: ["latin"] });
+const getTime = () => {
+  return fetch(`http://worldtimeapi.org/api/timezone/Asia/Kolkata`, {
+    // cache: "force-cache",
+    next: { revalidate: 100 },
+  }).then((res) => {
+    return res.json();
+  });
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const time = await getTime();
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
       <body>
-        <ProvidersWrapper>
-          <Header />
-          {children}
-        </ProvidersWrapper>
-        <footer>Footer</footer>
+        <div>
+          <ProvidersWrapper>
+            <Header />
+            <div>{time.datetime}</div>
+            {children}
+            <footer>Footer</footer>
+          </ProvidersWrapper>
+        </div>
       </body>
     </html>
   );

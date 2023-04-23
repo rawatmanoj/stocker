@@ -1,7 +1,7 @@
 import Link from "next/link";
 // import { useRouter } from "next/navigation";6
 import { Icons } from "@/components/icons";
-import { UserAuthForm } from "@/components/auth/user-auth-form";
+import UserAuthForm from "@/components/auth/user-auth-form";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
@@ -12,13 +12,13 @@ type SessionType = {
 };
 
 export default async function LoginPage(props: any) {
-  const session = (await getServerSession(authOptions)) as SessionType;
-  console.log(props, "props");
+  // const session = (await getServerSession(authOptions)) as SessionType;
+  // console.log(session, "sessionsessionsession");
   // const router = useRouter();
 
-  if (session.email) {
-    //router.push("/home");
-  }
+  // if (session.email) {
+  //   router.push("/home");
+  // }
 
   return (
     <div className="container h-screen  mx-auto flex justify-center flex-col align-center">

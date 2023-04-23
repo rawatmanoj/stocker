@@ -32,7 +32,7 @@ module.exports = {
         },
       },
       height: {
-        'headerSearch': '75%',
+        'headerSearch': '70%',
       },
     },
     backgroundImage: {
